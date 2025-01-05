@@ -305,6 +305,5 @@ h2{
     border-radius: 8px;
     box-shadow: 0 2px 8px #131315(0, 0, 0, 0.1); /* Subtle shadow for depth */
     position: relative;
-    top: 40%;
-    right: 12.3%;
+    bottom: 50%;
 }
