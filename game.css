@@ -1,0 +1,310 @@
+body, html {
+    height: 100%;
+    margin: 0;
+    font-family: 'Arial', sans-serif;
+}
+
+.game-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 100%;
+    position: relative;
+}
+
+/* Background Image */
+.background-image {
+    background-size: cover;
+    background-position: center;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 0; /* Background is at the bottom */
+}
+
+
+
+
+
+
+.board-game {
+    width: 100%; /* Match the container width */
+    height: auto; /* Maintain aspect ratio */
+}
+
+/* Dice Container */
+.dice-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    position: absolute;
+    right: 25px;
+    top: 50%;
+    transform: translateY(-50%);
+    padding: 20px;
+    height: 650px;
+    background-color: #bbf1ff; /* Softer background color */
+    width: 350px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px #1B1B1E(0, 0, 0, 0.25); /* Softer shadow for a modern look */
+    font-family: 'Arial', sans-serif;
+    color: #1B1B1E; /* Neutral text color for better readability */
+    gap: 20px; /* Add spacing between sections */
+}
+
+/* Dice Button */
+.dice-button {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    margin-top: 20px;
+    transition: transform 0.2s ease;
+}
+
+.dice-button:hover {
+    transform: scale(1.1);
+    filter:saturate(1.5);
+}
+
+#dice-image {
+    width: 90px;
+    height: 90px;
+}
+
+.dice-result {
+    font-size: 1.2rem;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 300px;
+    color: #1B1B1E;
+    min-height: 2em;
+}
+  
+
+/* Player Info Section */
+#player-info {
+    width: 100%;
+    padding: 10px;
+    background-color: #5fdfff; /* Light background for contrast */
+    border-radius: 8px;
+    box-shadow: 0 2px 8px #131315(0, 0, 0, 0.1); /* Subtle shadow for depth */
+    position: relative;
+    bottom: 50%;
+    
+}
+
+.info-field {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+    font-size: 1rem;
+    font-weight: 500;
+}
+
+.info-field strong {
+    font-weight: bold;
+    color: #1B1B1E; /* Slightly darker for emphasis */
+}
+
+#add-modal{
+    display: none;
+    background-color: #d9f4f4;
+    padding:7px; 
+    z-index:200;
+    border: 2px solid #474545; /* Adds a light border */
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+#add-modal input {
+    display: block;
+    margin: 5px 0; /* Reduced margin */
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 0.9rem; /* Slightly smaller font size */
+    padding: 5px; /* Reduced padding */
+}
+
+#add-modal label {
+    font-weight: bold;
+    display: block;
+    font-size: 0.9rem; /* Slightly smaller font size */
+    margin-bottom: 3px; /* Reduced margin between label and input */
+}
+/* Styling for the modal buttons */
+#add-modal button {
+    display: inline-block;
+    margin: 3px; /* Reduced margin */
+    padding: 5px 10px; /* Reduced padding */
+    border: none;
+    border-radius: 5px;
+    font-size: 0.5rem; /* Slightly smaller font size */
+    cursor: pointer;
+}
+#submit-investment:hover {
+    background-color: #b7effd;
+    transform: scale(1.08);
+    transition: all 0.2s ease-in-out;
+}
+
+.selected {
+    background-color: #707370 !important;  /* Green for selected button */
+    color: rgb(0, 0, 0); /* White text on selected button */
+    border: 2px solid #388E3C; /* Optional: make the border more prominent */
+
+}
+/* Pawn Styling */
+.pawn {
+    top:46%;
+    left:34%;
+    position: absolute; /* Ensure the pawn can be positioned absolutely */
+    height: 60px;
+    cursor: grab; /* Change cursor to indicate draggable element */
+    user-select: none;
+    display: flex; /* Ensure content aligns properly */
+    justify-content: center;
+    align-items: center;
+    z-index: 15;
+
+}
+
+.pawn img {
+    width: 100%; /* Make the image fill the pawn div */
+    height: 100%; /* Maintain the aspect ratio */
+    pointer-events: none; /* Ensure the image doesn't interfere with dragging */
+    
+}
+
+
+#persona-input-section label {
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+#persona {
+    
+    margin-top: 10px;
+    padding: 5px;
+    width: 150px;
+}
+
+h2{
+    text-align: center;
+    
+}
+
+.grid-overlay {
+    display: grid;
+    grid-template-columns: repeat(10, 1fr);
+    grid-template-rows: repeat(7, 1fr);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 10; /* Ensure it overlays the board */
+}
+
+.grid-overlay div {
+    /* border: 1px solid red; For visibility */
+    cursor: pointer;
+}
+.board-container {
+    position: relative; /* Position relative to align children */
+    z-index: 5; /* Place above the background */
+    width: 60%; /* Adjust the width as needed */
+    margin-left: 75px;
+}
+
+#floatingImageHolder {
+    display: none; /* Ensure it is hidden by default */
+    position: absolute; /* Position it inside the bottomRightSection */ 
+    bottom: 180px; /* Distance from the bottom of the bottomRightSection */
+    right: 55%;  /* Distance from the right edge of the bottomRightSection */
+    width: 280px;
+    height: 390px;
+    background-color: rgba(0, 0, 0, 0.2); /* Slightly darker background for better visibility */
+    border-radius: 20px;
+    text-align: center;
+    padding: 1px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    z-index: 1000; /* Ensure it is on top of other elements */
+}
+
+#floatingImageHolder img {
+    max-width: 100%;
+    max-height: 100%;
+    border-radius: 20px;
+    object-fit: cover;
+}
+
+#icon-container{
+    width: 100%;
+    padding: 10px;
+    background-color: #e9fbff; /* Light background for contrast */
+    border-radius: 8px;
+    box-shadow: 0 2px 8px #131315(0, 0, 0, 0.1); /* Subtle shadow for depth */
+    position: relative;
+    bottom: 50%;
+}
+
+/* General styling for modal */
+.rulemodal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1000; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgba(0, 0, 0, 0.8); /* Black background with opacity */
+}
+
+/* Modal content styling */
+.rulemodal-content {
+    background-color: #fff;
+    margin: 15% auto; /* Centered */
+    padding: 10px;
+    border-radius: 8px;
+    width: 50%; /* Adjust as needed */
+    text-align: center;
+}
+
+/* Close button styling */
+.close-button {
+    float: right;
+    font-size: 24px;
+    font-weight: bold;
+    cursor: pointer;
+    color: #000;
+}
+
+.close-button:hover {
+    color: red;
+}
+
+/* Image gallery styling */
+.image-gallery img {
+    width: 100%;
+    
+    border: 2px solid #ccc;
+    border-radius: 4px;
+    transition: transform 0.2s;
+}
+
+.image-gallery img:hover {
+    transform: scale(1.1); /* Zoom on hover */
+}
+
+#ruleSheet{
+    border-radius: 8px;
+    box-shadow: 0 2px 8px #131315(0, 0, 0, 0.1); /* Subtle shadow for depth */
+    position: relative;
+    top: 40%;
+    right: 12.3%;
+}

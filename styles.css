@@ -1,0 +1,116 @@
+/* Full-page background */
+body, html {
+    height: 100%;
+    margin: 0;
+    font-family: 'Arial', sans-serif;
+    overflow: hidden; /* Prevent unwanted scrolling */
+}
+
+.landing-container {
+    background-image: url('image/EBG_box.jpg'); 
+    background-size: cover;
+    background-position: center;
+    position: relative;
+    padding:35px;
+    background-repeat: no-repeat; /* Prevent tiling */
+    height: 100%; /* Full viewport height */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+h1 {
+    font-size: 3rem;
+    color: black;
+    text-align: center;
+    margin: 0; /* Remove default margin */
+}
+
+button {
+    padding: 10px 20px;
+    font-size: 1.2rem;
+    margin-bottom: 40px;
+    background-color: #000000;
+    color: white;
+    position: relative; /* Change to relative for better positioning control */
+    border-radius: 5px;
+    cursor: pointer;
+    transition: transform 0.3s ease-in-out, background-color 0.3s ease-in-out;
+    border: none; /* Remove default browser border */
+}
+
+button:hover {
+    background-color: #20242a;
+    transform: scale(1.1);
+
+}
+
+#start-btn{
+    margin-bottom: 446px;
+
+}
+/* Modal styling */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Add a subtle shadow */
+}
+
+.close {
+    color: red;
+    position: absolute;
+    top: 10px;
+    right: 10px; /* Adjusted positioning for flexibility */
+    font-size: 28px;
+    cursor: pointer;
+}
+
+.close:hover {
+    color: darkred;
+}
+
+input {
+    padding: 10px;
+    width: 80%;
+    margin-bottom: 10px;
+    border: 1px solid #ccc; /* Add a border for better visuals */
+    border-radius: 5px; /* Rounded corners */
+    box-sizing: border-box; /* Include padding in width calculation */
+}
+
+#submit-email-btn {
+    padding: 10px 20px;
+    background-color: #1a73e8;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px; /* Adjust margin for consistency */
+    text-align: center;
+    transition: background-color 0.3s ease-in-out;
+}
+
+#submit-email-btn:hover {
+    background-color: #145db2;
+}
+

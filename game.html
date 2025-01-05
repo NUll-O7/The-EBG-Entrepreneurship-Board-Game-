@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Entrepreneurial Board Game</title>
+    <link rel="stylesheet" href="game.css"> <!-- Link to your game-specific CSS file -->
+</head>
+<body>
+    <div class="game-container">
+        
+        <!-- Background and Board Image -->
+        <div class="background-image">
+            <img src="image/card mockup.jpg" style="width: 100%; height: 100%;">
+        </div>
+
+        <div class="board-container">
+            <img src="image/EBG_board.jpg" alt="Board Game" class="board-game">
+            <div class="grid-overlay"></div>
+        </div>
+
+        <div class="pawn" id="pawn1">
+            <img src="image/red.png" alt="Pawn 1">
+        </div>
+        
+
+
+        
+        <!-- Dice Container -->
+        <div class="dice-container">
+            <button id="dice-button" class="dice-button">
+                <img src="image\dice.png" alt="Dice" id="dice-image">
+            </button>
+            <div id="dice-result" class="dice-result"> </div>
+            <div id="player-info">
+                
+                <div id="persona-input-section">
+                    <label id="persona">Select Customer Persona</label>
+                    <button id="submit-persona">Save Persona</button>
+                </div>
+                <h2>Player Info:</h2>
+                <div id="info-field">
+                    <p><strong>Persona:</strong> <span id="player-persona">None</span></p>
+                </div>
+                
+                <div class="info-field">
+                    <strong>Entrepreneur's name:</strong> <span id="player-name"></span>
+                </div>
+                <div class="info-field">
+                    <strong>Cash in Hand:</strong> <span id="cash-in-hand"> ₹ 100000</span>
+                </div>
+                <div class="info-field">
+                    <strong>Equity:</strong> <span id="equity">100%</span>
+                </div>
+                <div class="info-field">
+                    <strong>Investments:</strong> <span id="investment"></span>
+                </div>
+                <div class="info-field">
+                    <button style="background-color: rgb(162, 255, 255);">Add investment</button> <span id="investment"></span>
+                </div>
+
+                <div id="add-modal">
+                    <label>Investment in:</label>
+                    <input type="text" id="investment-in" placeholder="e.g. prototype">
+
+                    <label>Cash transaction:</label>
+                    <input type="number" id="cash-transaction" placeholder="enter amount">
+                    <div>
+                        <button id="inflow" style="background-color: greenyellow;">Inflow</button>
+                        <button id="outflow" style="background-color: red;">Outflow</button>
+                    </div>
+
+                    <label>Equity dilution:</label>
+                    <input type="number" id="equity-dilution" placeholder="enter percentage number">
+                    
+                    <button id="submit-investment" style="display: block; cursor: pointer; margin: 20px auto; scale: 1.3;">Submit</button>
+                </div>
+
+            </div>
+
+            <div id="icon-container"></div>
+
+            
+           
+        </div>  
+
+        <div id="ruleSheet">
+            <button id="rules">Rule Sheet</button>
+        </div>
+
+        <div id="rulemodal" class="rulemodal">
+            <div class="rulemodal-content">
+                <span class="close-button">&times;</span>
+                <h2>Rule Sheet</h2>
+                <div class="image-gallery">
+                    <img src="image/How to Play Entrepreneurial Board Game_page-0001.jpg" alt="Image 1">
+                    <img src="image/How to Play Entrepreneurial Board Game_page-0002.jpg" alt="Image 2">
+                    <img src="image/How to Play Entrepreneurial Board Game_page-0003.jpg" alt="Image 3">
+                    
+                </div>
+            </div>
+        </div>
+
+        <div id="floatingImageHolder">
+            <p id="errorMessage" style="display: none;">Card not found</p>
+            <img id="floatingImage" src="" alt="Speech Image"/>
+        </div>
+        
+    </div>
+
+    <script src="game.js"></script> <!-- Link to your game-specific JS file -->
+</body>
+</html>
