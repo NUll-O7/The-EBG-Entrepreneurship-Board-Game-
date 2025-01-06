@@ -1,4 +1,4 @@
-// Initialize player name
+
 const playerNameSpan = document.getElementById('player-name');
 const storedEmail = localStorage.getItem('userEmail');
 let inputText = "";
@@ -10,22 +10,20 @@ if (storedEmail) {
     playerNameSpan.textContent = 'Unknown'; 
 }
 
-// Initialize values on window load
 window.onload = function () {
     document.getElementById("cash-in-hand").textContent = "Rs. 0";
-    document.getElementById("equity").textContent = "100%"; // Start equity at 100%
+    document.getElementById("equity").textContent = "100%"; 
 };
 
 const diceBtn = document.getElementById('dice-button');
 const diceResult = document.getElementById('dice-result');
 
-// Roll dice logic
 diceBtn.addEventListener('click', () => {
     const result = Math.floor(Math.random() * 6) + 1;
     diceResult.textContent = `You have rolled a ${result}`;
 });
 
-// Modal and investment logic
+
 const addInvestmentButton = document.querySelector('button[style="background-color: rgb(162, 255, 255);"]');
 const addModal = document.getElementById('add-modal');
 const submitInvestmentButton = document.getElementById('submit-investment');
@@ -34,23 +32,23 @@ const equitySpan = document.getElementById('equity');
 const inflowButton = document.getElementById('inflow');
 const outflowButton = document.getElementById('outflow');
 
-let cashInHand = 100000;  // Initial cash
-let equity = 100;    // Initial equity
-let cashTransactionDirection = ''; // Tracks inflow or outflow
+let cashInHand = 100000;  
+let equity = 100;    
+let cashTransactionDirection = ''; 
 
-// Open modal
+
 addInvestmentButton.addEventListener('click', () => {
     addModal.style.display = 'block';
 });
 
-// Highlight buttons for inflow/outflow
+
 function highlightButton(selectedButton) {
     inflowButton.classList.remove('selected');
     outflowButton.classList.remove('selected');
     selectedButton.classList.add('selected');
 }
 
-// Handle inflow
+
 inflowButton.addEventListener('click', () => {
     const cashTransaction = parseFloat(document.getElementById('cash-transaction').value);
     if (!isNaN(cashTransaction)) {
@@ -61,7 +59,7 @@ inflowButton.addEventListener('click', () => {
     }
 });
 
-// Handle outflow
+
 outflowButton.addEventListener('click', () => {
     const cashTransaction = parseFloat(document.getElementById('cash-transaction').value);
     if (!isNaN(cashTransaction)) {
@@ -72,7 +70,7 @@ outflowButton.addEventListener('click', () => {
     }
 });
 
-// Submit investment
+
 submitInvestmentButton.addEventListener('click', () => {
     // const investmentIn = document.getElementById('investment-in').value;
     document.getElementById('investment-in').value = inputText;
@@ -90,13 +88,13 @@ submitInvestmentButton.addEventListener('click', () => {
         } else if (cashTransactionDirection === 'outflow') {
             cashInHand -= cashTransaction;
         }
-        cashInHandSpan.textContent = `Rs. ${Math.max(0, cashInHand)}`; // Prevent negative cash
+        cashInHandSpan.textContent = `Rs. ${Math.max(0, cashInHand)}`; 
     }
 
     if (!isNaN(equityDilution)) {
-        equity -= equityDilution; // Reduce equity
+        equity -= equityDilution; 
         if (equity < 0) {
-            equity = 0; // Prevent equity below 0
+            equity = 0; 
         }
         equitySpan.textContent = `${equity}%`;
     } else {
@@ -105,7 +103,7 @@ submitInvestmentButton.addEventListener('click', () => {
 
     addModal.style.display = 'none';
 
-    // Clear input fields
+
     document.getElementById('investment-in').value = '';
     document.getElementById('cash-transaction').value = '';
     document.getElementById('equity-dilution').value = '';
@@ -124,21 +122,20 @@ const iconList = [];
 
 function addIconToContainer() {
     const iconsContainer = document.getElementById('icon-container');
-    iconsContainer.innerHTML = ''; // Clear existing icon
-        // Otherwise, display the icons
+    iconsContainer.innerHTML = ''; 
         iconList.forEach(iconName => {
             const img = document.createElement('img');
-            img.src = `icons/${iconName}.png`; // Path to the icon
-            img.alt = iconName; // Alt text for the image
-            img.title = iconName; // Set title for hover tooltip
-            img.style.width = '50px'; // Adjust size as needed
-            img.style.height = '50px'; // Adjust size as needed
-            iconsContainer.appendChild(img); // Append the image to the container 
+            img.src = `icons/${iconName}.png`; 
+            img.alt = iconName; 
+            img.title = iconName; 
+            img.style.width = '50px'; 
+            img.style.height = '50px'; 
+            iconsContainer.appendChild(img); 
         });
     
 }
 
-// Pawn dragging logic
+
 document.querySelectorAll('.pawn').forEach((pawn) => {
     pawn.addEventListener('mousedown', (e) => {
         let shiftX = e.clientX - pawn.getBoundingClientRect().left;
@@ -163,7 +160,7 @@ document.querySelectorAll('.pawn').forEach((pawn) => {
 
         document.addEventListener('mouseup', onMouseUp);
 
-        pawn.ondragstart = () => false; // Disable default drag-and-drop behavior
+        pawn.ondragstart = () => false; 
     });
 });
 
@@ -211,49 +208,48 @@ document.querySelectorAll('.pawn').forEach((pawn) => {
 
 
 window.onload = function () {
-    const email = localStorage.getItem('userEmail'); // Get the email from localStorage
-    const personaInputField = document.getElementById('persona'); // Get the persona input field
-    const storedPersona = localStorage.getItem(`userPersona-${email}`); // Get the persona associated with the email
+    const email = localStorage.getItem('userEmail'); 
+    const personaInputField = document.getElementById('persona'); 
+    const storedPersona = localStorage.getItem(`userPersona-${email}`); 
     const playerPersonaSpan = document.getElementById('player-persona');
     
-    // Clear the persona input field
-    personaInputField.value = ''; // Ensure it's empty on page load
+    
+    personaInputField.value = ''; 
     if (email) {
         if (storedPersona) {
-            playerPersonaSpan.textContent = storedPersona; // Display stored persona associated with the email
+            playerPersonaSpan.textContent = storedPersona; 
         } else {
-            playerPersonaSpan.textContent = ''; // Display empty if no persona is set for this email
+            playerPersonaSpan.textContent = ''; 
         }
     } else {
-        // If no email is found, display a message or handle accordingly
+       
         alert('No email found! Please login first.');
     }
 };
 
-// Save and Display Persona
+
 const submitPersonaButton = document.getElementById('submit-persona');
 const personaInputSection = document.getElementById('persona-input-section');
 
 submitPersonaButton.addEventListener('click', () => {
-    const personaInputField = document.getElementById('persona'); // Get the input field for persona
+    const personaInputField = document.getElementById('persona'); 
     const persona = personaInputField.value.trim();
-    const email = localStorage.getItem('userEmail'); // Get the email from localStorage
+    const email = localStorage.getItem('userEmail'); 
     personaInputField.value = inputText;
     if (email && persona) {
-        // Save persona to localStorage using email as key
+        
         localStorage.setItem(`userPersona-${email}`, persona);
 
-        // Update the displayed persona
+        
         const playerPersonaSpan = document.getElementById('player-persona');
         playerPersonaSpan.textContent = persona;
 
-        // Clear the input field
+        
         personaInputField.value = '';
 
-        // Hide the input section
+        
         personaInputSection.style.display = 'none';
 
-        // Feedback to the user
         alert('Persona saved successfully!');
         iconList.push(inputText);
         addIconToContainer();
@@ -263,22 +259,22 @@ submitPersonaButton.addEventListener('click', () => {
 });
 
 
-// Select the grid overlay
+
 const gridOverlay = document.querySelector('.grid-overlay');
 
-// Generate grid cells
-for (let i = 1; i <= 70; i++) { // 10 columns x 7 rows = 70 cells
+
+for (let i = 1; i <= 70; i++) { 
     const cell = document.createElement('div');
-    cell.dataset.index = i; // Assign a unique index for identification
+    cell.dataset.index = i; 
     
     gridOverlay.appendChild(cell);
 }
 
-// Add click event listener
+
 
 gridOverlay.addEventListener('click', (e) => {
     // document.getElementById('persona').value = inputText;
-    // if (e.target && e.target.dataset.index) { // Ensure target is a grid cell
+    // if (e.target && e.target.dataset.index) { 
     //     // alert(`You clicked on grid cell ${e.target.dataset.index}`);
     // }
     const gridNumber = e.target.dataset.index;
@@ -287,33 +283,28 @@ gridOverlay.addEventListener('click', (e) => {
     loadFloatingImage(inputText);
 });
 
-
-// Function to load the Cards into the floating image holder based on speechText
 function loadFloatingImage(inputText) {
     console.log('Loading image for:', inputText);
     const image = document.getElementById('floatingImage');
     const errorMessage = document.getElementById('errorMessage');
-    const imageUrl = "images/" + inputText + ".png"; // Assumes images are saved as .png in the same folder
-    
-    // Hide the error message by default
+    const imageUrl = "imagSes/" + inputText + ".png"; 
+   
     errorMessage.style.display = 'none';
     
-    // Attempt to load the image
     image.src = imageUrl;
     image.onerror = function() {
-        // If image is not found, display an error message
+        
         console.log('Image not found:', imageUrl);
         errorMessage.style.display = 'block';
         image.style.display = 'none'; // Hide the image
     };
     image.onload = function() {
-        // If the image is found, display it and hide the error message
+        
         console.log('Image loaded:', imageUrl);
         errorMessage.style.display = 'none';
-        image.style.display = 'block'; // Show the image
+        image.style.display = 'block'; 
     };
 
-    // Show the floating image holder
     document.getElementById('floatingImageHolder').style.display = 'block';
 
 }
@@ -401,22 +392,21 @@ document.addEventListener('keydown', function(event) {
     }
 });
 
-// Get elements
+
 const modal = document.getElementById('rulemodal');
 const openModalButton = document.getElementById('rules');
 const closeModalButton = document.querySelector('.close-button');
 
-// Open the modal
+
 openModalButton.addEventListener('click', () => {
     modal.style.display = 'block';
 });
 
-// Close the modal
+
 closeModalButton.addEventListener('click', () => {
     modal.style.display = 'none';
 });
 
-// Close the modal when clicking outside of it
 window.addEventListener('click', (event) => {
     if (event.target === modal) {
         modal.style.display = 'none';

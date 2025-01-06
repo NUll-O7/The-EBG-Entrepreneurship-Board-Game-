@@ -1,9 +1,9 @@
-/* Full-page background */
+
 body, html {
     height: 100%;
     margin: 0;
     font-family: 'Arial', sans-serif;
-    overflow: hidden; /* Prevent unwanted scrolling */
+    overflow: hidden; 
 }
 
 .landing-container {
@@ -12,8 +12,8 @@ body, html {
     background-position: center;
     position: relative;
     padding:35px;
-    background-repeat: no-repeat; /* Prevent tiling */
-    height: 100%; /* Full viewport height */
+    background-repeat: no-repeat; 
+    height: 100%; 
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -25,7 +25,7 @@ h1 {
     font-size: 3rem;
     color: black;
     text-align: center;
-    margin: 0; /* Remove default margin */
+    margin: 0; 
 }
 
 button {
@@ -34,11 +34,11 @@ button {
     margin-bottom: 40px;
     background-color: #000000;
     color: white;
-    position: relative; /* Change to relative for better positioning control */
+    position: relative;
     border-radius: 5px;
     cursor: pointer;
     transition: transform 0.3s ease-in-out, background-color 0.3s ease-in-out;
-    border: none; /* Remove default browser border */
+    border: none;
 }
 
 button:hover {
@@ -51,9 +51,9 @@ button:hover {
     margin-bottom: 446px;
 
 }
-/* Modal styling */
+
 .modal {
-    display: none; /* Hidden by default */
+    display: none; 
     position: fixed;
     z-index: 1;
     left: 0;
@@ -73,14 +73,14 @@ button:hover {
     display: flex;
     flex-direction: column;
     align-items: center;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Add a subtle shadow */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
 }
 
 .close {
     color: red;
     position: absolute;
     top: 10px;
-    right: 10px; /* Adjusted positioning for flexibility */
+    right: 10px; 
     font-size: 28px;
     cursor: pointer;
 }
@@ -93,9 +93,9 @@ input {
     padding: 10px;
     width: 80%;
     margin-bottom: 10px;
-    border: 1px solid #ccc; /* Add a border for better visuals */
-    border-radius: 5px; /* Rounded corners */
-    box-sizing: border-box; /* Include padding in width calculation */
+    border: 1px solid #ccc; 
+    border-radius: 5px; 
+    box-sizing: border-box; 
 }
 
 #submit-email-btn {
@@ -105,7 +105,7 @@ input {
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    margin-top: 10px; /* Adjust margin for consistency */
+    margin-top: 10px; 
     text-align: center;
     transition: background-color 0.3s ease-in-out;
 }
@@ -113,4 +113,3 @@ input {
 #submit-email-btn:hover {
     background-color: #145db2;
 }
-
