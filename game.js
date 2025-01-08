@@ -287,7 +287,7 @@ function loadFloatingImage(inputText) {
     console.log('Loading image for:', inputText);
     const image = document.getElementById('floatingImage');
     const errorMessage = document.getElementById('errorMessage');
-    const imageUrl = "imagSes/" + inputText + ".png"; 
+    const imageUrl = "images/" + inputText + ".png"; 
    
     errorMessage.style.display = 'none';
     
