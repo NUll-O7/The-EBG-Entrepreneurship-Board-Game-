@@ -2,13 +2,16 @@ body, html {
     height: 100%;
     margin: 0;
     font-family: 'Arial', sans-serif;
+   
 }
 
 .game-container {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    height: 100%;
+    /* height: 100%; */
+    min-height: 100vh; 
+    height: 100vh;
     position: relative;
 }
 
@@ -17,17 +20,14 @@ body, html {
     background-position: center;
     width: 100%;
     height: 100%;
-    position: absolute;
-    top: 0;
-    left: 0;
-    z-index: 0; 
+    position: fixed; 
 }
 
 .board-game {
     width: 100%; 
     height: auto; 
 }
-
+    
 .dice-container {
     display: flex;
     flex-direction: column;
@@ -38,7 +38,7 @@ body, html {
     top: 50%;
     transform: translateY(-50%);
     padding: 20px;
-    height: 650px;
+    height: 90%;
     background-color: #bbf1ff;
     width: 350px;
     border-radius: 12px;
@@ -48,11 +48,11 @@ body, html {
     gap: 20px; 
 }
 
+
 .dice-button {
     background-color: transparent;
     border: none;
     cursor: pointer;
-    margin-top: 20px;
     transition: transform 0.2s ease;
 }
 
@@ -62,29 +62,30 @@ body, html {
 }
 
 #dice-image {
-    width: 90px;
-    height: 90px;
+    width: 70px;
+    height: 70px;
 }
 
 .dice-result {
     font-size: 1.2rem;
     font-weight: bold;
     text-align: center;
-    margin-bottom: 300px;
+    margin-bottom: 220px;
     color: #1B1B1E;
     min-height: 2em;
 }
-  
-
 
 #player-info {
     width: 100%;
+    height: 80%;
     padding: 10px;
     background-color: #5fdfff; 
     border-radius: 8px;
     box-shadow: 0 2px 8px #131315(0, 0, 0, 0.1); 
     position: relative;
     bottom: 50%;
+    z-index:200;
+
     
 }
 
@@ -100,6 +101,7 @@ body, html {
 .info-field strong {
     font-weight: bold;
     color: #1B1B1E; 
+    z-index:200;
 }
 
 #add-modal{
@@ -114,6 +116,7 @@ body, html {
 
 #add-modal input {
     display: block;
+    z-index:200;
     margin: 5px 0; 
     border: 1px solid #ccc;
     border-radius: 5px;
@@ -122,6 +125,7 @@ body, html {
 }
 
 #add-modal label {
+    z-index:200;
     font-weight: bold;
     display: block;
     font-size: 0.9rem; 
@@ -136,6 +140,7 @@ body, html {
     border-radius: 5px;
     font-size: 0.5rem; 
     cursor: pointer;
+    z-index:200;
 }
 #submit-investment:hover {
     background-color: #b7effd;
@@ -242,6 +247,7 @@ h2{
     box-shadow: 0 2px 8px #131315(0, 0, 0, 0.1); 
     position: relative;
     bottom: 50%;
+    
 }
 
 .rulemodal {
@@ -291,6 +297,9 @@ h2{
 #ruleSheet{
     border-radius: 8px;
     box-shadow: 0 2px 8px #131315(0, 0, 0, 0.1);
+    padding-bottom: 590px;
+    right: 775px;
     position: relative;
-    bottom: 50%;
+
+    z-index:10;
 }
