@@ -1,4 +1,4 @@
-// Initialize player name
+
 const playerNameSpan = document.getElementById('player-name');
 const storedEmail = localStorage.getItem('userEmail');
 let inputText = "";
@@ -10,22 +10,20 @@ if (storedEmail) {
     playerNameSpan.textContent = 'Unknown'; 
 }
 
-// Initialize values on window load
 window.onload = function () {
     document.getElementById("cash-in-hand").textContent = "Rs. 0";
-    document.getElementById("equity").textContent = "100%"; // Start equity at 100%
+    document.getElementById("equity").textContent = "100%"; 
 };
 
 const diceBtn = document.getElementById('dice-button');
 const diceResult = document.getElementById('dice-result');
 
-// Roll dice logic
 diceBtn.addEventListener('click', () => {
     const result = Math.floor(Math.random() * 6) + 1;
     diceResult.textContent = `You have rolled a ${result}`;
 });
 
-// Modal and investment logic
+
 const addInvestmentButton = document.querySelector('button[style="background-color: rgb(162, 255, 255);"]');
 const addModal = document.getElementById('add-modal');
 const submitInvestmentButton = document.getElementById('submit-investment');
@@ -34,23 +32,23 @@ const equitySpan = document.getElementById('equity');
 const inflowButton = document.getElementById('inflow');
 const outflowButton = document.getElementById('outflow');
 
-let cashInHand = 100000;  // Initial cash
-let equity = 100;    // Initial equity
-let cashTransactionDirection = ''; // Tracks inflow or outflow
+let cashInHand = 100000;  
+let equity = 100;    
+let cashTransactionDirection = ''; 
 
-// Open modal
+
 addInvestmentButton.addEventListener('click', () => {
     addModal.style.display = 'block';
 });
 
-// Highlight buttons for inflow/outflow
+
 function highlightButton(selectedButton) {
     inflowButton.classList.remove('selected');
     outflowButton.classList.remove('selected');
     selectedButton.classList.add('selected');
 }
 
-// Handle inflow
+
 inflowButton.addEventListener('click', () => {
     const cashTransaction = parseFloat(document.getElementById('cash-transaction').value);
     if (!isNaN(cashTransaction)) {
@@ -61,7 +59,7 @@ inflowButton.addEventListener('click', () => {
     }
 });
 
-// Handle outflow
+
 outflowButton.addEventListener('click', () => {
     const cashTransaction = parseFloat(document.getElementById('cash-transaction').value);
     if (!isNaN(cashTransaction)) {
@@ -72,7 +70,7 @@ outflowButton.addEventListener('click', () => {
     }
 });
 
-// Submit investment
+
 submitInvestmentButton.addEventListener('click', () => {
     // const investmentIn = document.getElementById('investment-in').value;
     document.getElementById('investment-in').value = inputText;
@@ -90,13 +88,13 @@ submitInvestmentButton.addEventListener('click', () => {
         } else if (cashTransactionDirection === 'outflow') {
             cashInHand -= cashTransaction;
         }
-        cashInHandSpan.textContent = `Rs. ${Math.max(0, cashInHand)}`; // Prevent negative cash
+        cashInHandSpan.textContent = `Rs. ${Math.max(0, cashInHand)}`; 
     }
 
     if (!isNaN(equityDilution)) {
-        equity -= equityDilution; // Reduce equity
+        equity -= equityDilution; 
         if (equity < 0) {
-            equity = 0; // Prevent equity below 0
+            equity = 0; 
         }
         equitySpan.textContent = `${equity}%`;
     } else {
@@ -105,7 +103,7 @@ submitInvestmentButton.addEventListener('click', () => {
 
     addModal.style.display = 'none';
 
-    // Clear input fields
+
     document.getElementById('investment-in').value = '';
     document.getElementById('cash-transaction').value = '';
     document.getElementById('equity-dilution').value = '';
@@ -124,46 +122,56 @@ const iconList = [];
 
 function addIconToContainer() {
     const iconsContainer = document.getElementById('icon-container');
-    iconsContainer.innerHTML = ''; // Clear existing icon
-        // Otherwise, display the icons
+    iconsContainer.innerHTML = ''; 
         iconList.forEach(iconName => {
             const img = document.createElement('img');
-            img.src = `icons/${iconName}.png`; // Path to the icon
-            img.alt = iconName; // Alt text for the image
-            img.title = iconName; // Set title for hover tooltip
-            img.style.width = '50px'; // Adjust size as needed
-            img.style.height = '50px'; // Adjust size as needed
-            iconsContainer.appendChild(img); // Append the image to the container 
+            // img.src = `icons/${iconName}.png`; 
+            img.src = icons_map[iconName];
+            img.alt = iconName; 
+            img.title = iconName; 
+            img.style.width = '50px'; 
+            img.style.height = '50px'; 
+            iconsContainer.appendChild(img); 
         });
     
 }
 
-// Pawn dragging logic
+
 document.querySelectorAll('.pawn').forEach((pawn) => {
     pawn.addEventListener('mousedown', (e) => {
         let shiftX = e.clientX - pawn.getBoundingClientRect().left;
         let shiftY = e.clientY - pawn.getBoundingClientRect().top;
 
-        const moveAt = (pageX, pageY) => {
-            pawn.style.left = `${pageX - shiftX}px`;
-            pawn.style.top = `${pageY - shiftY}px`;
-        };
+            const moveAt = (pageX, pageY) => {
+                // Calculate new position
+                let newLeft = pageX - shiftX;
+                let newTop = pageY - shiftY;
+                
+                // Make sure pawn stays within the board boundaries
+                if (newLeft < boardRect.left) newLeft = boardRect.left;
+                if (newTop < boardRect.top) newTop = boardRect.top;
+                if (newLeft > boardRect.right - pawn.offsetWidth) newLeft = boardRect.right - pawn.offsetWidth;
+                if (newTop > boardRect.bottom - pawn.offsetHeight) newTop = boardRect.bottom - pawn.offsetHeight;
+                
+                pawn.style.left = `${newLeft}px`;
+                pawn.style.top = `${newTop}px`;
+            };
 
-        const onMouseMove = (e) => {
-            moveAt(e.pageX, e.pageY);
-        };
+            const onMouseMove = (e) => {
+                moveAt(e.pageX, e.pageY);
+            };
 
-        document.addEventListener('mousemove', onMouseMove);
+            document.addEventListener('mousemove', onMouseMove);
 
-        const onMouseUp = () => {
-            document.removeEventListener('mousemove', onMouseMove);
-            document.removeEventListener('mouseup', onMouseUp);
-            pawn.style.cursor = "grab";
-        };
+            const onMouseUp = () => {
+                document.removeEventListener('mousemove', onMouseMove);
+                document.removeEventListener('mouseup', onMouseUp);
+                pawn.style.cursor = "grab";
+            };
 
         document.addEventListener('mouseup', onMouseUp);
 
-        pawn.ondragstart = () => false; // Disable default drag-and-drop behavior
+        pawn.ondragstart = () => false; 
     });
 });
 
@@ -211,49 +219,48 @@ document.querySelectorAll('.pawn').forEach((pawn) => {
 
 
 window.onload = function () {
-    const email = localStorage.getItem('userEmail'); // Get the email from localStorage
-    const personaInputField = document.getElementById('persona'); // Get the persona input field
-    const storedPersona = localStorage.getItem(`userPersona-${email}`); // Get the persona associated with the email
+    const email = localStorage.getItem('userEmail'); 
+    const personaInputField = document.getElementById('persona'); 
+    const storedPersona = localStorage.getItem(`userPersona-${email}`); 
     const playerPersonaSpan = document.getElementById('player-persona');
     
-    // Clear the persona input field
-    personaInputField.value = ''; // Ensure it's empty on page load
+    
+    personaInputField.value = ''; 
     if (email) {
         if (storedPersona) {
-            playerPersonaSpan.textContent = storedPersona; // Display stored persona associated with the email
+            playerPersonaSpan.textContent = storedPersona; 
         } else {
-            playerPersonaSpan.textContent = ''; // Display empty if no persona is set for this email
+            playerPersonaSpan.textContent = ''; 
         }
     } else {
-        // If no email is found, display a message or handle accordingly
+       
         alert('No email found! Please login first.');
     }
 };
 
-// Save and Display Persona
+
 const submitPersonaButton = document.getElementById('submit-persona');
 const personaInputSection = document.getElementById('persona-input-section');
 
 submitPersonaButton.addEventListener('click', () => {
-    const personaInputField = document.getElementById('persona'); // Get the input field for persona
+    const personaInputField = document.getElementById('persona'); 
     const persona = personaInputField.value.trim();
-    const email = localStorage.getItem('userEmail'); // Get the email from localStorage
+    const email = localStorage.getItem('userEmail'); 
     personaInputField.value = inputText;
     if (email && persona) {
-        // Save persona to localStorage using email as key
+        
         localStorage.setItem(`userPersona-${email}`, persona);
 
-        // Update the displayed persona
+        
         const playerPersonaSpan = document.getElementById('player-persona');
         playerPersonaSpan.textContent = persona;
 
-        // Clear the input field
+        
         personaInputField.value = '';
 
-        // Hide the input section
+        
         personaInputSection.style.display = 'none';
 
-        // Feedback to the user
         alert('Persona saved successfully!');
         iconList.push(inputText);
         addIconToContainer();
@@ -263,57 +270,53 @@ submitPersonaButton.addEventListener('click', () => {
 });
 
 
-// Select the grid overlay
+
 const gridOverlay = document.querySelector('.grid-overlay');
 
-// Generate grid cells
-for (let i = 1; i <= 70; i++) { // 10 columns x 7 rows = 70 cells
+
+for (let i = 1; i <= 70; i++) { 
     const cell = document.createElement('div');
-    cell.dataset.index = i; // Assign a unique index for identification
+    cell.dataset.index = i; 
     
     gridOverlay.appendChild(cell);
 }
 
-// Add click event listener
+
 
 gridOverlay.addEventListener('click', (e) => {
     // document.getElementById('persona').value = inputText;
-    // if (e.target && e.target.dataset.index) { // Ensure target is a grid cell
+    // if (e.target && e.target.dataset.index) { 
     //     // alert(`You clicked on grid cell ${e.target.dataset.index}`);
     // }
     const gridNumber = e.target.dataset.index;
     const text = gridTextList[gridNumber] || '';
     inputText = text;
     loadFloatingImage(inputText);
+    
 });
 
-
-// Function to load the Cards into the floating image holder based on speechText
 function loadFloatingImage(inputText) {
     console.log('Loading image for:', inputText);
     const image = document.getElementById('floatingImage');
     const errorMessage = document.getElementById('errorMessage');
-    const imageUrl = "images/" + inputText + ".png"; // Assumes images are saved as .png in the same folder
-    
-    // Hide the error message by default
+    const imageUrl = image_map[inputText]; 
+   
     errorMessage.style.display = 'none';
     
-    // Attempt to load the image
     image.src = imageUrl;
     image.onerror = function() {
-        // If image is not found, display an error message
+        
         console.log('Image not found:', imageUrl);
         errorMessage.style.display = 'block';
         image.style.display = 'none'; // Hide the image
     };
     image.onload = function() {
-        // If the image is found, display it and hide the error message
+        
         console.log('Image loaded:', imageUrl);
         errorMessage.style.display = 'none';
-        image.style.display = 'block'; // Show the image
+        image.style.display = 'block'; 
     };
 
-    // Show the floating image holder
     document.getElementById('floatingImageHolder').style.display = 'block';
 
 }
@@ -401,27 +404,139 @@ document.addEventListener('keydown', function(event) {
     }
 });
 
-// Get elements
+
 const modal = document.getElementById('rulemodal');
 const openModalButton = document.getElementById('rules');
 const closeModalButton = document.querySelector('.close-button');
 
-// Open the modal
+
 openModalButton.addEventListener('click', () => {
     modal.style.display = 'block';
 });
 
-// Close the modal
+
 closeModalButton.addEventListener('click', () => {
     modal.style.display = 'none';
 });
 
-// Close the modal when clicking outside of it
 window.addEventListener('click', (event) => {
     if (event.target === modal) {
         modal.style.display = 'none';
     }
 });
 
+const image_map = {
+    "Academia": "https://i.ibb.co/ypP9RXh/academia.png",
+    "Accelerator": "https://i.ibb.co/br5TwQd/Accelerator.png",
+    "Acquisition": "https://i.ibb.co/T4vmGrq/acquisition.png",
+    "Ananya": "https://i.ibb.co/9WdQG4t/ananya.png",
+    "Angel funding": "https://i.ibb.co/XYsj1Mv/Angel-funding.png",
+    "App development": "https://i.ibb.co/W5qKg2Y/App-development.png",
+    "Bank": "https://i.ibb.co/SVZXRXn/Bank.png",
+    "Bg": "https://i.ibb.co/HpJ8K2B/bg.jpg",
+    "Big Corp": "https://i.ibb.co/vVsFh6v/Big-Corp.png",
+    "Buy out": "https://i.ibb.co/XV0ZnTS/Buy-out.png",
+    "Comp Reg": "https://i.ibb.co/2vkDfmn/comp-reg.png",
+    "Company Registration": "https://i.ibb.co/WkhQ8mH/Company-Registration.png",
+    "CRM": "https://i.ibb.co/jTzcH5c/crm.png",
+    "Crowd funding": "https://i.ibb.co/jM9Bm2k/Crowd-funding.png",
+    "Customer Persona": "https://i.ibb.co/nBnR0Bw/customer-persona.jpg",
+    "Customers": "https://i.ibb.co/XSCT5F1/customers.png",
+    "EBG Board": "https://i.ibb.co/Cz4MvRq/EBG-board.jpg",
+    "EBG Box": "https://i.ibb.co/nLq4Qdf/EBG-box.jpg",
+    "Ebg Logo": "https://i.ibb.co/z6DmDHT/ebg-logo.png",
+    "EBG V7": "https://i.ibb.co/DWyHbW7/EBG-v7.jpg",
+    "EBG V8": "https://i.ibb.co/QYR3GgS/EBG-v8.jpg",
+    "Enabler": "https://i.ibb.co/HNVMK7D/Enabler.png",
+    "Equipment": "https://i.ibb.co/SB3bKnv/equipment.png",
+    "FFF funding": "https://i.ibb.co/C6Zrv5P/fff-funding.png",
+    "Goal": "https://i.ibb.co/h12DrL1/goal.png",
+    "Grant": "https://i.ibb.co/PrJbPYd/Grant.png",
+    "Hackathon": "https://i.ibb.co/16Yk5Ny/hackathon.png",
+    "Harry": "https://i.ibb.co/GFcnYgr/harry.png",
+    "Idea": "https://i.ibb.co/tXG8b31/Idea.png",
+    "Ideathon": "https://i.ibb.co/xFDBn5d/Ideathon.png",
+    "Incubator": "https://i.ibb.co/s9StkCD/incubator.png",
+    "Indresh": "https://i.ibb.co/qjxqXzH/indresh.png",
+    "Insurance": "https://i.ibb.co/B6H1YRw/insurance.png",
+    "Internal Partnership": "https://i.ibb.co/MZZWPTk/Internal-Partnership.png",
+    "International reach": "https://i.ibb.co/B4krQP1/International-reach.png",
+    "IP rights": "https://i.ibb.co/5WY4N8y/IP-rights.png",
+    "IT Setup": "https://i.ibb.co/vJbDFgb/IT-setup.png",
+    "Laksh": "https://i.ibb.co/GJtVv2v/laksh.png",
+    "Market Survey": "https://i.ibb.co/WBrQ1fc/Market-Survey.png",
+    "Marketing": "https://i.ibb.co/C8htD3h/Marketing.png",
+    "Mentor": "https://i.ibb.co/DKSz3Nh/Mentor.png",
+    "MVP": "https://i.ibb.co/310288r/MVP.png",
+    "Office": "https://i.ibb.co/P5frbbT/office.png",
+    "Pivot": "https://i.ibb.co/DRPXRfH/Pivot.png",
+    "Prototype": "https://i.ibb.co/166sswg/prototype.png",
+    "Revenue": "https://i.ibb.co/yRdnWZC/revenue.png",
+    "Seed funding": "https://i.ibb.co/5vkGN1J/Seed-funding.png",
+    "Skill Dev": "https://i.ibb.co/ZdKW3bT/skill-dev.png",
+    "Skill Development": "https://i.ibb.co/8dwtKjX/skill-development.png",
+    "Sunny": "https://i.ibb.co/kc1C780/sunny.png",
+    "Tax": "https://i.ibb.co/6XqLNjt/Tax.png",
+    "Team": "https://i.ibb.co/ByyLMCD/team.png",
+    "VC funding": "https://i.ibb.co/Sny1hDK/VC-Funding.png",
+    "Vinny": "https://i.ibb.co/MfZkZfj/vinny.png"
+}
 
-
+icons_map = {
+    "Academia": "https://i.ibb.co/rsNWbkX/Academia.png",
+    "Accelerator": "https://i.ibb.co/KVQbNGT/Accelerator.png",
+    "Acquisition": "https://i.ibb.co/8rmyQkG/Acquisition.png",
+    "Ananya": "https://i.ibb.co/fvKvG9W/ananya.png",
+    "Angel funding": "https://i.ibb.co/XZDrsjT/Angel-Funding.png",
+    "Bank": "https://i.ibb.co/FntMZJ2/Bank.png",
+    "Big corp": "https://i.ibb.co/BL4C6TC/Big-Corp.png",
+    "Buy out": "https://i.ibb.co/6Wp4nwp/Buy-Out.png",
+    "Company registration": "https://i.ibb.co/M7XDDBg/Company-Registration.png",
+    "CRM": "https://i.ibb.co/vdQvDBd/CRM.png",
+    "Crowd funding": "https://i.ibb.co/3YG2MCW/Crowd-Funding.png",
+    "Customer 1k": "https://i.ibb.co/GdzPznm/Customer-1k.png",
+    "Customer 10k": "https://i.ibb.co/hVtbd2L/Customer-10k.png",
+    "Customer 100 K": "https://i.ibb.co/dbk8Dgr/Customer-100-K.png",
+    "Customer multiplier": "https://i.ibb.co/p4MPsNs/Customer-Multiplier.png",
+    "Customers": "https://i.ibb.co/MhWWLVH/Customers.png",
+    "Dice": "https://i.ibb.co/ZxQms7h/Dice.png",
+    "Enabler": "https://i.ibb.co/0sqrHmN/Enabler.png",
+    "Equipment": "https://i.ibb.co/ss4WzMS/Equipment.png",
+    "Equity": "https://i.ibb.co/K9YdjHf/Equity.png",
+    "Factory": "https://i.ibb.co/h72Bnfk/factory.png",
+    "FFF funding": "https://i.ibb.co/5rRxYF4/FFF-funding.png",
+    "Grant": "https://i.ibb.co/p2cvCj7/Grant.png",
+    "Hackathon": "https://i.ibb.co/HCTC6M5/Hackathon.png",
+    "Harry": "https://i.ibb.co/jfc3WxQ/harry.png",
+    "Idea": "https://i.ibb.co/hYybM8f/Idea.png",
+    "Ideathon": "https://i.ibb.co/1vM5N1x/ideathon.png",
+    "Incubator": "https://i.ibb.co/xHhMqYf/Incubator.png",
+    "Indresh": "https://i.ibb.co/9cpW0Px/indresh.png",
+    "Insurance": "https://i.ibb.co/7SHw6W3/insurance.png",
+    "Internal partnership": "https://i.ibb.co/G7xtGd4/internal-partnership.png",
+    "International reach": "https://i.ibb.co/XFYgmgF/International-reach.png",
+    "IP rights": "https://i.ibb.co/C6ZJBxV/IP-rights.png",
+    "IT setup": "https://i.ibb.co/qjcjztN/IT-setup.png",
+    "Laksh": "https://i.ibb.co/JQ1LySH/Laksh.png",
+    "Market survey": "https://i.ibb.co/QQf4RhN/Market-Survey.png",
+    "Marketing": "https://i.ibb.co/2YPny1M/Marketing.png",
+    "Mentor": "https://i.ibb.co/pfHTpfV/Mentor.png",
+    "MVP V1": "https://i.ibb.co/wc8XTgV/MVP-V1.png",
+    "MVP V2": "https://i.ibb.co/YLx6bgz/MVP-V2.png",
+    "MVP V3": "https://i.ibb.co/8jYtkQw/MVP-V3.png",
+    "MVP V4": "https://i.ibb.co/9t9DDrH/MVP-V4.png",
+    "MVP": "https://i.ibb.co/ZR9q48Z/MVP.png",
+    "Net worth": "https://i.ibb.co/brDkh2m/Net-worth.png",
+    "Office": "https://i.ibb.co/p4nKV7J/office.png",
+    "Pivot": "https://i.ibb.co/kHCDPGX/Pivot.png",
+    "Prototype": "https://i.ibb.co/jW8PfkR/Prototype.png",
+    "Revenue multiplier": "https://i.ibb.co/99dQ2DF/Revenue-Multiplier.png",
+    "Revenue": "https://i.ibb.co/p1w8tt9/Revenue.png",
+    "Seed funding": "https://i.ibb.co/nwhr2Rj/Seed-funding.png",
+    "Skill development": "https://i.ibb.co/vj1W0Wg/skill-development.png",
+    "Sunny": "https://i.ibb.co/vJYQxCd/sunny.png",
+    "Tax": "https://i.ibb.co/cF4vQkT/Tax.png",
+    "Team": "https://i.ibb.co/18SyZ8H/Team.png",
+    "VC funding": "https://i.ibb.co/p67B3wS/VC-Funding.png",
+    "Vinny": "https://i.ibb.co/PrJ9D0f/vinny.png"
+}
