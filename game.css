@@ -3,8 +3,7 @@ body, html {
     height: 100%;
     margin: 0;
     font-family: 'Arial', sans-serif;
-    overflow-x: hidden;
-    box-sizing: border-box;
+    overflow-x: hidden; /* Prevent horizontal scrolling */
 }
 
 *, *:before, *:after {
@@ -20,11 +19,7 @@ body, html {
     min-height: 100vh;
     width: 100%;
     position: relative;
-    overflow: hidden;
-    min-width: 320px; /* Prevent extreme shrinking */
-    max-width: 100%;
-    padding: 0;
-    margin: 0;
+    max-width: 100vw; /* Limit container width */
 }
 
 /* Background styling */
@@ -36,28 +31,10 @@ body, html {
     height: 100%;
     z-index: -1;
 }
-
-.background-image img {
-    width: 100%;
-    height: 100%;
-    position: fixed;
-    z-index: -1;
-}
-
-/* Board game styling with responsive width */
-.board-container {
-    position: relative;
-    z-index: 5;
-    width: 70%;
-    max-width: none;
-    margin: 0;
-    padding: 0;
-}
-
 .board-game {
-    width: 100%;
-    height: auto;
-    display: block;
+    width: 100%; /* Match the container width */
+    height: auto; /* Maintain aspect ratio */
+    max-width: 100%; /* Prevent overflow */
 }
 
 /* Dice container styling with improved positioning */
@@ -70,20 +47,19 @@ body, html {
     right: 0;
     top: 50%;
     transform: translateY(-50%);
-    padding: 20px;
-    height: 80%;
-    max-height: 600px;
-    background-color: #bbf1ff;
-    width: 25%;
-    max-width: 350px;
-    min-width: 250px;
+    padding: 15px;
+    height: 650px;
+    background-color: #bbf1ff; /* Softer background color */
+    width: 350px; /* Increased width to match screenshot */
+    max-width: 40vw; /* Increased maximum width */
+    max-height: 80vh; /* Limit maximum height */
     border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+    box-shadow: 0 4px 12px rgba(27, 27, 30, 0.25); /* Fixed shadow syntax */
     font-family: 'Arial', sans-serif;
-    color: #1B1B1E;
-    gap: 20px;
-    overflow-y: auto;
-    margin: 0;
+    color: #1B1B1E; /* Neutral text color for better readability */
+    gap: 15px; /* Slightly increased gap for breathing room */
+    z-index: 20; /* Ensure it stays above the board */
+    overflow-y: auto; /* Allow scrolling if needed */
 }
 
 /* Dice button styling */
@@ -91,6 +67,7 @@ body, html {
     background-color: transparent;
     border: none;
     cursor: pointer;
+    margin-top: 10px;
     transition: transform 0.2s ease;
     padding: 10px;
 }
@@ -101,9 +78,9 @@ body, html {
 }
 
 #dice-image {
-    width: 70px;
+    width: 70px; /* Reduced size */
     height: 70px;
-    max-width: 100%;
+    max-width: 100%; /* Prevent overflow */
 }
 
 /* Dice result display */
@@ -111,7 +88,7 @@ body, html {
     font-size: 1rem;
     font-weight: bold;
     text-align: center;
-    margin-bottom: 20px;
+    margin-bottom: 10px; /* Reduced margin */
     color: #1B1B1E;
     min-height: 2em;
 }
@@ -122,40 +99,39 @@ body, html {
     padding: 10px;
     background-color: #5fdfff;
     border-radius: 8px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    margin-bottom: 20px;
-    box-sizing: border-box;
+    box-shadow: 0 2px 8px rgba(19, 19, 21, 0.1); /* Fixed shadow syntax */
+    position: relative;
+    margin-bottom: 10px; /* Add margin for spacing */
+    box-sizing: border-box; /* Include padding in width */
 }
 
 .info-field {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 10px;
-    font-size: 0.9rem;
+    margin-bottom: 10px; /* Increased margin */
+    font-size: 1rem; /* Restored font size */
     font-weight: 500;
+    flex-wrap: wrap; /* Allow wrapping on small screens */
 }
 
 .info-field strong {
     font-weight: bold;
-    color: #1B1B1E;
+    color: #1B1B1E; /* Slightly darker for emphasis */
+    margin-right: 5px; /* Add space between label and value */
 }
 
-/* Modal styling */
 #add-modal {
     display: none;
     background-color: #d9f4f4;
-    padding: 15px;
+    padding: 10px; 
     z-index: 200;
-    border: 2px solid #474545;
+    border: 2px solid #474545; /* Adds a light border */
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    max-width: 90%;
-    width: 300px;
+    width: 90%; /* Make modal width relative to parent */
+    max-width: 320px; /* Increased maximum width */
+    box-sizing: border-box; /* Include padding in width */
 }
 
 #add-modal input {
@@ -164,9 +140,10 @@ body, html {
     margin: 10px 0;
     border: 1px solid #ccc;
     border-radius: 5px;
-    font-size: 0.9rem;
-    padding: 8px;
-    box-sizing: border-box;
+    font-size: 0.9rem; /* Slightly smaller font size */
+    padding: 5px; /* Reduced padding */
+    width: 100%; /* Full width */
+    box-sizing: border-box; /* Include padding in width */
 }
 
 #add-modal label {
@@ -175,14 +152,14 @@ body, html {
     font-size: 0.9rem;
     margin-bottom: 3px;
 }
-
+/* Styling for the modal buttons */
 #add-modal button {
     display: inline-block;
-    margin: 5px;
-    padding: 8px 15px;
+    margin: 5px; /* Increased margin */
+    padding: 6px 12px; /* Increased padding */
     border: none;
     border-radius: 5px;
-    font-size: 0.9rem;
+    font-size: 0.9rem; /* Increased font size */
     cursor: pointer;
 }
 
@@ -194,41 +171,30 @@ body, html {
 
 /* Selected state styling */
 .selected {
-    background-color: #707370 !important;
-    color: rgb(0, 0, 0);
-    border: 2px solid #388E3C;
+    background-color: #707370 !important;  /* Green for selected button */
+    color: rgb(0, 0, 0); /* White text on selected button */
+    border: 2px solid #388E3C; /* Optional: make the border more prominent */
 }
 
-/* Pawn styling */
+/* Pawn Styling */
 .pawn {
+    top: 46%;
+    left: 34%;
     position: absolute;
     height: 60px;
-    width: 60px;
     cursor: grab;
     user-select: none;
     display: flex;
     justify-content: center;
     align-items: center;
     z-index: 15;
-    transition: all 0.3s ease;
-    /* Position pawn at the center of the board */
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
 }
 
 .pawn img {
     width: 100%;
     height: 100%;
     pointer-events: none;
-    object-fit: contain;
 }
-
-/* Persona input section */
-#persona-input-section {
-    margin: 10px 0;
-}
-
 #persona-input-section label {
     font-weight: bold;
     margin-bottom: 10px;
@@ -237,18 +203,16 @@ body, html {
 
 #persona {
     margin-top: 10px;
-    padding: 8px;
-    width: 100%;
-    max-width: 150px;
-    border-radius: 4px;
-    border: 1px solid #ccc;
+    padding: 5px;
+    width: 90%; /* Make width relative */
+    max-width: 200px; /* Increased maximum width */
+    box-sizing: border-box; /* Include padding in width */
 }
 
-/* Headings */
 h2 {
     text-align: center;
-    margin-top: 10px;
-    margin-bottom: 15px;
+    font-size: 1.3rem; /* Slightly smaller heading */
+    margin: 5px 0; /* Reduced margin */
 }
 
 /* Grid overlay for the board */
@@ -268,15 +232,24 @@ h2 {
     cursor: pointer;
 }
 
+.board-container {
+    position: relative; /* Position relative to align children */
+    z-index: 5; /* Place above the background */
+    width: 60%; /* Adjust the width as needed */
+    max-width: 70vw; /* Limit maximum width */
+    margin-left: 5%; /* Use percentage for responsiveness */
+}
+
 /* Floating image holder */
 #floatingImageHolder {
     display: none;
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+    position: absolute;
+    bottom: 180px;
+    right: 55%;
     width: 280px;
+    max-width: 80vw; /* Limit maximum width */
     height: 390px;
+    max-height: 60vh; /* Limit maximum height */
     background-color: rgba(0, 0, 0, 0.2);
     border-radius: 20px;
     text-align: center;
@@ -292,15 +265,22 @@ h2 {
     object-fit: contain;
 }
 
-/* Icon container */
 #icon-container {
     width: 100%;
     padding: 10px;
     background-color: #e9fbff;
     border-radius: 8px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    margin-top: 20px;
-    box-sizing: border-box;
+    box-shadow: 0 2px 8px rgba(19, 19, 21, 0.1); /* Fixed shadow syntax */
+    position: relative;
+    margin-bottom: 10px; /* Add margin for spacing */
+    display: flex;
+    flex-wrap: wrap; /* Allow icons to wrap */
+    justify-content: center;
+    box-sizing: border-box; /* Include padding in width */
+}
+
+#icon-container img {
+    margin: 3px; /* Add space between icons */
 }
 
 /* Rule modal */
@@ -318,12 +298,13 @@ h2 {
 
 .rulemodal-content {
     background-color: #fff;
-    margin: 10% auto;
-    padding: 20px;
+    margin: 10% auto; /* Reduced top margin */
+    padding: 10px;
     border-radius: 8px;
-    width: 80%;
-    max-width: 600px;
+    width: 80%; /* More responsive width */
+    max-width: 800px; /* Limit maximum width */
     text-align: center;
+    box-sizing: border-box; /* Include padding in width */
 }
 
 .close-button {
@@ -349,170 +330,114 @@ h2 {
 
 .image-gallery img {
     width: 100%;
+    max-width: 100%; /* Ensure images don't overflow */
     border: 2px solid #ccc;
     border-radius: 4px;
-    margin-bottom: 10px;
-}
-
-/* Button and input element general responsiveness */
-button {
-    padding: 8px 15px;
-    font-size: 1rem;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: transform 0.3s ease-in-out, background-color 0.3s ease-in-out;
+    transition: transform 0.2s;
+    margin-bottom: 10px; /* Add space between images */
 }
 
 .image-gallery img:hover {
-    transform: scale(1.05);
+    transform: scale(1.05); /* Reduced zoom on hover */
 }
 
 #ruleSheet {
     border-radius: 8px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    padding: 15px;
-    margin: 0 auto;
-    background-color: #fff;
-    max-height: 150px;
-    overflow-y: auto;
-    width: 90%;
-    max-width: 600px;
-    position: fixed;
-    bottom: 10px;
-    left: 0;
-    right: 0;
-    z-index: 100;
-    display: block;
+    box-shadow: 0 2px 8px rgba(19, 19, 21, 0.1); /* Fixed shadow syntax */
+    position: relative;
+    margin-top: 10px; /* Add margin for spacing */
+    width: 100%; /* Full width */
+    text-align: center;
 }
 
-/* Input fields for transactions */
-input[type="text"], 
-input[type="number"] {
-    width: 100%;
-    padding: 8px;
-    margin: 5px 0;
-    border-radius: 4px;
-    border: 1px solid #ccc;
-    box-sizing: border-box;
+#rules {
+    padding: 8px 15px;
+    background-color: #5fdfff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
 }
 
-/* Media queries for responsive design */
-@media screen and (max-width: 992px) {
+#rules:hover {
+    background-color: #4acdee;
+}
+
+/* Add media queries for responsive design */
+@media (max-width: 1200px) {
+    .board-container {
+        width: 55%;
+    }
+    
+    .dice-container {
+        width: 320px; /* Increased width */
+        height: 600px;
+    }
+}
+
+@media (max-width: 992px) {
+    .board-container {
+        width: 50%;
+    }
+    
+    .dice-container {
+        width: 300px; /* Increased width */
+        height: 580px;
+        padding: 10px;
+    }
+    
+    #dice-image {
+        width: 70px; /* Maintain larger size */
+        height: 70px;
+    }
+}
+
+@media (max-width: 768px) {
     .game-container {
         flex-direction: column;
-        justify-content: flex-start;
-        padding-top: 20px;
+        height: auto;
+        min-height: 100vh;
     }
     
     .board-container {
-        width: 100%;
-        margin: 0 0 20px 0;
-        order: 1;
+        width: 90%;
+        margin: 20px auto;
+        max-width: 90vw;
     }
     
     .dice-container {
         position: relative;
-        right: auto;
         top: auto;
+        right: auto;
         transform: none;
-        width: 100%;
-        max-width: 100%;
+        width: 90%;
+        max-width: 380px; /* Increased maximum width */
         height: auto;
-        order: 2;
-        margin: 0 0 20px 0;
+        min-height: 500px;
+        margin: 20px auto;
         padding: 15px;
+    }
+    
+    .pawn {
+        top: 40%;
+        left: 40%;
+    }
+    
+    #floatingImageHolder {
+        position: fixed;
+        bottom: 10px;
+        right: 10px;
+        width: 220px;
+        height: 300px;
     }
     
     .dice-result {
-        margin-bottom: 15px;
-    }
-    
-    #player-info {
-        margin-bottom: 15px;
-    }
-}
-
-@media screen and (min-width: 992px) and (max-width: 1200px) {
-    .board-container {
-        width: 70%;
-    }
-    
-    .dice-container {
-        width: 25%;
-    }
-}
-
-@media screen and (max-width: 768px) {
-    .board-container {
-        width: 100%;
-    }
-    
-    .dice-container {
-        width: 100%;
-    }
-    
-    h2 {
-        font-size: 1.5rem;
-    }
-    
-    .rulemodal-content {
-        width: 90%;
-        padding: 15px;
-        margin: 15% auto;
-    }
-}
-
-@media screen and (max-width: 576px) {
-    .info-field {
-        flex-direction: column;
-        align-items: flex-start;
-        margin-bottom: 15px;
-    }
-    
-    .info-field strong {
         margin-bottom: 5px;
     }
-    
-    .dice-button {
-        padding: 5px;
-    }
-    
-    #dice-image {
-        width: 50px;
-        height: 50px;
-    }
-    
-    .rulemodal-content {
-        margin: 20% auto;
-    }
-}
 
-/* Fix for zoomed view at 150% zoom level */
-@media screen and (min-resolution: 1.25dppx) {
-    .game-container {
-        flex-direction: column;
-        align-items: center;
-        justify-content: flex-start;
-        padding: 20px 0;
-    }
-    
-    .board-container {
-        width: 95%;
-        margin: 0 0 30px 0;
-    }
-    
-    .dice-container {
-        position: static;
-        transform: none;
-        width: 95%;
-        max-width: 95%;
-        margin: 0 0 20px 0;
-    }
-    
-    #ruleSheet {
-        position: static;
-        margin: 20px auto;
-        width: 95%;
+    /* Ensure info fields don't get too cramped */
+    .info-field {
+        font-size: 0.95rem;
+        margin-bottom: 8px;
     }
 }

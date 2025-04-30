@@ -540,4 +540,3 @@ icons_map = {
     "VC funding": "https://i.ibb.co/p67B3wS/VC-Funding.png",
     "Vinny": "https://i.ibb.co/PrJ9D0f/vinny.png"
 }
-
