@@ -1,417 +1,230 @@
+// Responsive JavaScript adjustments for Entrepreneurial Board Game
 
-const playerNameSpan = document.getElementById('player-name');
-const storedEmail = localStorage.getItem('userEmail');
-let inputText = "";
-
-if (storedEmail) {
-    const name = storedEmail.split('@')[0]; 
-    playerNameSpan.textContent = name;
-} else {
-    playerNameSpan.textContent = 'Unknown'; 
-}
-
-window.onload = function () {
-    document.getElementById("cash-in-hand").textContent = "Rs. 0";
-    document.getElementById("equity").textContent = "100%"; 
-};
-
-const diceBtn = document.getElementById('dice-button');
-const diceResult = document.getElementById('dice-result');
-
-diceBtn.addEventListener('click', () => {
-    const result = Math.floor(Math.random() * 6) + 1;
-    diceResult.textContent = `You have rolled a ${result}`;
-});
-
-
-const addInvestmentButton = document.querySelector('button[style="background-color: rgb(162, 255, 255);"]');
-const addModal = document.getElementById('add-modal');
-const submitInvestmentButton = document.getElementById('submit-investment');
-const cashInHandSpan = document.getElementById('cash-in-hand');
-const equitySpan = document.getElementById('equity');
-const inflowButton = document.getElementById('inflow');
-const outflowButton = document.getElementById('outflow');
-
-let cashInHand = 100000;  
-let equity = 100;    
-let cashTransactionDirection = ''; 
-
-
-addInvestmentButton.addEventListener('click', () => {
-    addModal.style.display = 'block';
-});
-
-
-function highlightButton(selectedButton) {
-    inflowButton.classList.remove('selected');
-    outflowButton.classList.remove('selected');
-    selectedButton.classList.add('selected');
-}
-
-
-inflowButton.addEventListener('click', () => {
-    const cashTransaction = parseFloat(document.getElementById('cash-transaction').value);
-    if (!isNaN(cashTransaction)) {
-        cashTransactionDirection = 'inflow';
-        highlightButton(inflowButton);
-    } else {
-        alert('Please enter a valid amount.');
-    }
-});
-
-
-outflowButton.addEventListener('click', () => {
-    const cashTransaction = parseFloat(document.getElementById('cash-transaction').value);
-    if (!isNaN(cashTransaction)) {
-        cashTransactionDirection = 'outflow';
-        highlightButton(outflowButton);
-    } else {
-        alert('Please enter a valid amount.');
-    }
-});
-
-
-submitInvestmentButton.addEventListener('click', () => {
-    // const investmentIn = document.getElementById('investment-in').value;
-    document.getElementById('investment-in').value = inputText;
-    const equityDilution = parseFloat(document.getElementById('equity-dilution').value);
-    const cashTransaction = parseFloat(document.getElementById('cash-transaction').value);
-
-    if (!cashTransactionDirection) {
-        alert('Please select Inflow or Outflow before submitting.');
-        return;
-    }
-
-    if (!isNaN(cashTransaction)) {
-        if (cashTransactionDirection === 'inflow') {
-            cashInHand += cashTransaction;
-        } else if (cashTransactionDirection === 'outflow') {
-            cashInHand -= cashTransaction;
+// Wait for the DOM to be fully loaded
+document.addEventListener('DOMContentLoaded', function() {
+    // Responsive pawn positioning
+    const positionPawnResponsively = () => {
+        const boardContainer = document.querySelector('.board-container');
+        const pawn = document.getElementById('pawn1');
+        
+        if (boardContainer && pawn) {
+            const boardRect = boardContainer.getBoundingClientRect();
+            
+            // Calculate position based on viewport width
+            if (window.innerWidth < 768) {
+                // For small screens
+                pawn.style.left = '34%';
+                pawn.style.top = '46%';
+            } else if (window.innerWidth < 992) {
+                // For medium screens
+                pawn.style.left = '34%';
+                pawn.style.top = '46%';
+            } else {
+                // For large screens
+                pawn.style.left = '34%';
+                pawn.style.top = '46%';
+            }
         }
-        cashInHandSpan.textContent = `Rs. ${Math.max(0, cashInHand)}`; 
-    }
+    };
 
-    if (!isNaN(equityDilution)) {
-        equity -= equityDilution; 
-        if (equity < 0) {
-            equity = 0; 
+    // Position the pawn responsively on load
+    positionPawnResponsively();
+
+    // Update pawn position when window is resized
+    window.addEventListener('resize', positionPawnResponsively);
+
+    // Fix for the floating image position
+    const adjustFloatingImage = () => {
+        const floatingImageHolder = document.getElementById('floatingImageHolder');
+        
+        if (floatingImageHolder && floatingImageHolder.style.display !== 'none') {
+            if (window.innerWidth < 992) {
+                // For small/medium screens, center in viewport
+                floatingImageHolder.style.top = '50%';
+                floatingImageHolder.style.left = '50%';
+                floatingImageHolder.style.transform = 'translate(-50%, -50%)';
+                floatingImageHolder.style.bottom = 'auto';
+                floatingImageHolder.style.right = 'auto';
+            } else {
+                // For large screens, use original positioning
+                floatingImageHolder.style.bottom = '180px';
+                floatingImageHolder.style.right = '55%';
+                floatingImageHolder.style.top = 'auto';
+                floatingImageHolder.style.left = 'auto';
+                floatingImageHolder.style.transform = 'none';
+            }
         }
-        equitySpan.textContent = `${equity}%`;
-    } else {
-        alert('Please enter a valid equity dilution value.');
-    }
+    };
 
-    addModal.style.display = 'none';
+    // Adjust floating image position on window resize
+    window.addEventListener('resize', adjustFloatingImage);
 
+    // Fix for draggable pawns to stay within the board
+    document.querySelectorAll('.pawn').forEach((pawn) => {
+        pawn.addEventListener('mousedown', (e) => {
+            let shiftX = e.clientX - pawn.getBoundingClientRect().left;
+            let shiftY = e.clientY - pawn.getBoundingClientRect().top;
+            const boardContainer = document.querySelector('.board-container');
+            const boardRect = boardContainer.getBoundingClientRect();
 
-    document.getElementById('investment-in').value = '';
-    document.getElementById('cash-transaction').value = '';
-    document.getElementById('equity-dilution').value = '';
+            const moveAt = (pageX, pageY) => {
+                // Calculate new position
+                let newLeft = pageX - shiftX;
+                let newTop = pageY - shiftY;
+                
+                // Make sure pawn stays within the board boundaries
+                if (newLeft < boardRect.left) newLeft = boardRect.left;
+                if (newTop < boardRect.top) newTop = boardRect.top;
+                if (newLeft > boardRect.right - pawn.offsetWidth) newLeft = boardRect.right - pawn.offsetWidth;
+                if (newTop > boardRect.bottom - pawn.offsetHeight) newTop = boardRect.bottom - pawn.offsetHeight;
+                
+                pawn.style.left = `${newLeft}px`;
+                pawn.style.top = `${newTop}px`;
+            };
 
-    cashTransactionDirection = '';
-    inflowButton.classList.remove('selected');
-    outflowButton.classList.remove('selected');
-    
-    
-    iconList.push(inputText);
-    addIconToContainer();
+            const onMouseMove = (e) => {
+                moveAt(e.pageX, e.pageY);
+            };
 
-});
+            document.addEventListener('mousemove', onMouseMove);
 
-const iconList = [];
+            const onMouseUp = () => {
+                document.removeEventListener('mousemove', onMouseMove);
+                document.removeEventListener('mouseup', onMouseUp);
+                pawn.style.cursor = "grab";
+            };
 
-function addIconToContainer() {
-    const iconsContainer = document.getElementById('icon-container');
-    iconsContainer.innerHTML = ''; 
-        iconList.forEach(iconName => {
-            const img = document.createElement('img');
-            img.src = `icons/${iconName}.png`; 
-            img.alt = iconName; 
-            img.title = iconName; 
-            img.style.width = '50px'; 
-            img.style.height = '50px'; 
-            iconsContainer.appendChild(img); 
+            document.addEventListener('mouseup', onMouseUp);
+
+            // Handle touch events for mobile
+            const onTouchMove = (e) => {
+                const touch = e.touches[0];
+                moveAt(touch.pageX, touch.pageY);
+                e.preventDefault(); // Prevent scrolling while dragging
+            };
+
+            const onTouchEnd = () => {
+                document.removeEventListener('touchmove', onTouchMove);
+                document.removeEventListener('touchend', onTouchEnd);
+                pawn.style.cursor = "grab";
+            };
+
+            document.addEventListener('touchmove', onTouchMove, { passive: false });
+            document.addEventListener('touchend', onTouchEnd);
+
+            pawn.ondragstart = () => false;
         });
-    
-}
 
-
-document.querySelectorAll('.pawn').forEach((pawn) => {
-    pawn.addEventListener('mousedown', (e) => {
-        let shiftX = e.clientX - pawn.getBoundingClientRect().left;
-        let shiftY = e.clientY - pawn.getBoundingClientRect().top;
-
-        const moveAt = (pageX, pageY) => {
-            pawn.style.left = `${pageX - shiftX}px`;
-            pawn.style.top = `${pageY - shiftY}px`;
-        };
-
-        const onMouseMove = (e) => {
-            moveAt(e.pageX, e.pageY);
-        };
-
-        document.addEventListener('mousemove', onMouseMove);
-
-        const onMouseUp = () => {
-            document.removeEventListener('mousemove', onMouseMove);
-            document.removeEventListener('mouseup', onMouseUp);
-            pawn.style.cursor = "grab";
-        };
-
-        document.addEventListener('mouseup', onMouseUp);
-
-        pawn.ondragstart = () => false; 
+        // Add touch start event for mobile
+        pawn.addEventListener('touchstart', (e) => {
+            const touch = e.touches[0];
+            let shiftX = touch.clientX - pawn.getBoundingClientRect().left;
+            let shiftY = touch.clientY - pawn.getBoundingClientRect().top;
+            pawn.style.cursor = "grabbing";
+            e.preventDefault(); // Prevent default touch behavior
+        }, { passive: false });
     });
-});
 
-// DOM Elements
-// const personaInput = document.getElementById('persona');
-// const submitPersonaButton = document.getElementById('submit-persona');
-// const playerPersonaSpan = document.getElementById('player-persona');
-// const personaInputSection = document.getElementById('persona-input-section');
-
-// // Clear persona input field on page load
-// window.onload = function () {
-//     const personaInputField = document.getElementById('persona'); // Get the persona input field
-//     const storedPersona = localStorage.getItem('userPersona');
-    
-//     // Clear the input field immediately
-//     personaInputField.value = ''; // Clear any pre-filled value in the input field
-
-//     if (storedPersona) {
-//         playerPersonaSpan.textContent = storedPersona; // Display stored persona
-//     } else {
-//         playerPersonaSpan.textContent = ''; // Leave span empty if no persona exists
-//     }
-// };
-
-
-
-// // Save and Display Persona
-// submitPersonaButton.addEventListener('click', () => {
-//     const persona = personaInput.value.trim();
-//     if (persona) {
-//         // Save persona to local storage
-//         localStorage.setItem('userPersona', persona);
-
-//         // Update the displayed persona
-//         playerPersonaSpan.textContent = persona;
-
-//         // Clear the input field
-//         personaInputSection.style.display = 'none';
-//         // Feedback to the user
-//         alert('Persona saved successfully!');
-//     } else {
-//         alert('Please enter a valid persona!');
-//     }
-// });
-
-
-window.onload = function () {
-    const email = localStorage.getItem('userEmail'); 
-    const personaInputField = document.getElementById('persona'); 
-    const storedPersona = localStorage.getItem(`userPersona-${email}`); 
-    const playerPersonaSpan = document.getElementById('player-persona');
-    
-    
-    personaInputField.value = ''; 
-    if (email) {
-        if (storedPersona) {
-            playerPersonaSpan.textContent = storedPersona; 
-        } else {
-            playerPersonaSpan.textContent = ''; 
+    // Fix modal positioning for different screen sizes
+    const fixModalPosition = () => {
+        const addModal = document.getElementById('add-modal');
+        if (addModal && addModal.style.display !== 'none') {
+            addModal.style.top = '50%';
+            addModal.style.left = '50%';
+            addModal.style.transform = 'translate(-50%, -50%)';
         }
-    } else {
-       
-        alert('No email found! Please login first.');
-    }
-};
-
-
-const submitPersonaButton = document.getElementById('submit-persona');
-const personaInputSection = document.getElementById('persona-input-section');
-
-submitPersonaButton.addEventListener('click', () => {
-    const personaInputField = document.getElementById('persona'); 
-    const persona = personaInputField.value.trim();
-    const email = localStorage.getItem('userEmail'); 
-    personaInputField.value = inputText;
-    if (email && persona) {
-        
-        localStorage.setItem(`userPersona-${email}`, persona);
-
-        
-        const playerPersonaSpan = document.getElementById('player-persona');
-        playerPersonaSpan.textContent = persona;
-
-        
-        personaInputField.value = '';
-
-        
-        personaInputSection.style.display = 'none';
-
-        alert('Persona saved successfully!');
-        iconList.push(inputText);
-        addIconToContainer();
-
-    }
-    
-});
-
-
-
-const gridOverlay = document.querySelector('.grid-overlay');
-
-
-for (let i = 1; i <= 70; i++) { 
-    const cell = document.createElement('div');
-    cell.dataset.index = i; 
-    
-    gridOverlay.appendChild(cell);
-}
-
-
-
-gridOverlay.addEventListener('click', (e) => {
-    // document.getElementById('persona').value = inputText;
-    // if (e.target && e.target.dataset.index) { 
-    //     // alert(`You clicked on grid cell ${e.target.dataset.index}`);
-    // }
-    const gridNumber = e.target.dataset.index;
-    const text = gridTextList[gridNumber] || '';
-    inputText = text;
-    loadFloatingImage(inputText);
-});
-
-function loadFloatingImage(inputText) {
-    console.log('Loading image for:', inputText);
-    const image = document.getElementById('floatingImage');
-    const errorMessage = document.getElementById('errorMessage');
-    const imageUrl = "images/" + inputText + ".png"; 
-   
-    errorMessage.style.display = 'none';
-    
-    image.src = imageUrl;
-    image.onerror = function() {
-        
-        console.log('Image not found:', imageUrl);
-        errorMessage.style.display = 'block';
-        image.style.display = 'none'; // Hide the image
-    };
-    image.onload = function() {
-        
-        console.log('Image loaded:', imageUrl);
-        errorMessage.style.display = 'none';
-        image.style.display = 'block'; 
     };
 
-    document.getElementById('floatingImageHolder').style.display = 'block';
+    // Call fixModalPosition on window resize
+    window.addEventListener('resize', fixModalPosition);
 
+    // Make sure the dice button is fully responsive
+    const diceBtn = document.getElementById('dice-button');
+    if (diceBtn) {
+        diceBtn.addEventListener('touchstart', (e) => {
+            // Prevent default touch behavior to avoid double triggers
+            e.preventDefault();
+            // Manually trigger the click event
+            diceBtn.click();
+        }, { passive: false });
+    }
+
+    // Make grid cells responsive
+    const updateGridCells = () => {
+        const gridOverlay = document.querySelector('.grid-overlay');
+        const boardGame = document.querySelector('.board-game');
+        
+        if (gridOverlay && boardGame) {
+            // Update grid to match board game dimensions
+            gridOverlay.style.width = `${boardGame.offsetWidth}px`;
+            gridOverlay.style.height = `${boardGame.offsetHeight}px`;
+        }
+    };
+
+    // Call updateGridCells when window is resized
+    window.addEventListener('resize', updateGridCells);
+    // Initial call to set the grid
+    updateGridCells();
+
+    // Fix for mobile - close floating image on tap outside
+    document.addEventListener('touchstart', (e) => {
+        const floatingImageHolder = document.getElementById('floatingImageHolder');
+        if (floatingImageHolder && 
+            floatingImageHolder.style.display !== 'none' && 
+            !floatingImageHolder.contains(e.target)) {
+            hideFloatingImageHolder();
+        }
+    });
+
+    // Adjust rule sheet button position based on screen size
+    const adjustRuleSheetPosition = () => {
+        const ruleSheet = document.getElementById('ruleSheet');
+        if (ruleSheet) {
+            if (window.innerWidth < 992) {
+                ruleSheet.style.position = 'fixed';
+                ruleSheet.style.bottom = '20px';
+                ruleSheet.style.left = '20px';
+                ruleSheet.style.right = 'auto';
+            } else {
+                // Restore original positioning for desktop
+                ruleSheet.style.position = 'relative';
+                ruleSheet.style.right = '775px';
+                ruleSheet.style.bottom = '0';
+                ruleSheet.style.left = 'auto';
+            }
+        }
+    };
+
+    // Call adjustRuleSheetPosition on load and resize
+    adjustRuleSheetPosition();
+    window.addEventListener('resize', adjustRuleSheetPosition);
+
+    // Ensure the board is always displayed correctly
+    const adjustBoardPosition = () => {
+        const boardContainer = document.querySelector('.board-container');
+        if (boardContainer) {
+            if (window.innerWidth < 992) {
+                boardContainer.style.margin = '20px auto';
+                boardContainer.style.marginLeft = 'auto';
+            } else {
+                boardContainer.style.marginLeft = '5%';
+            }
+        }
+    };
+
+    // Call adjustBoardPosition on load and resize
+    adjustBoardPosition();
+    window.addEventListener('resize', adjustBoardPosition);
+});
+
+// Fix for iOS vh issue (100vh is not reliable on iOS)
+function setVhProperty() {
+    // First we get the viewport height and we multiply it by 1% to get a value for a vh unit
+    let vh = window.innerHeight * 0.01;
+    // Then we set the value in the --vh custom property to the root of the document
+    document.documentElement.style.setProperty('--vh', `${vh}px`);
 }
 
-// Define a Card name for each grid number
-const gridTextList = {
-    1: 'Enabler',
-    2: 'App development',
-    3: 'IP rights',
-    4: 'Tax',
-    5: 'Office',
-    6: 'Mentor',
-    7: 'Insurance',
-    8: 'CRM',
-    9: 'Equipment',
-    10: 'Accelerator',
-    11: 'Angel funding',
-    12: 'Vinny',
-    13: 'Vinny',
-    14: 'International reach',
-    15: 'Indresh',
-    16: 'Indresh',
-    17: 'Big corp',
-    18: 'Sunny',
-    19: 'Sunny',
-    20: 'Bank',
-    21: 'Crowd funding',
-    22: 'Vinny',
-    23: 'Vinny',
-    24: 'International reach',
-    25: 'Indresh',
-    26: 'Indresh',
-    27: 'Big Corp',
-    28: 'Sunny',
-    29: 'Sunny',
-    30: 'Marketing',
-    31: 'Seed funding',
-    32: 'Customers',
-    33: 'Customers',
-    34: 'Market Survey',
-    35: 'Intro',
-    36: 'Objective',
-    37: 'MVP',
-    38: 'Revenue',
-    39: 'Revenue',
-    40: 'Internal Partnership',
-    41: 'VC funding',
-    42: 'Harry',
-    43: 'Harry',
-    44: 'Buy out',
-    45: 'Ananya',
-    46: 'Ananya',
-    47: 'Merger',
-    48: 'Laksh',
-    49: 'Laksh',
-    50: 'Company Registration',
-    51: 'Grant',
-    52: 'Harry',
-    53: 'Harry',
-    54: 'Buyout',
-    55: 'Ananya',
-    56: 'Ananya',
-    57: 'Acquisition',
-    58: 'Laksh',
-    59: 'Laksh',
-    60: 'Pivot',
-    61: 'Idea',
-    62: 'Academia',
-    63: 'FFF funding',
-    64: 'Hackathon',
-    65: 'Prototype',
-    66: 'Ideathon',
-    67: 'Team',
-    68: 'Skill Development',
-    69: 'IT Setup',
-    70: 'Incubator'
-
-};
-function hideFloatingImageHolder() {
-    document.getElementById('floatingImageHolder').style.display = 'none';
-}
-document.addEventListener('keydown', function(event) {
-    if (event.key === 'Escape') {
-        hideFloatingImageHolder();
-    }
-});
-
-
-const modal = document.getElementById('rulemodal');
-const openModalButton = document.getElementById('rules');
-const closeModalButton = document.querySelector('.close-button');
-
-
-openModalButton.addEventListener('click', () => {
-    modal.style.display = 'block';
-});
-
-
-closeModalButton.addEventListener('click', () => {
-    modal.style.display = 'none';
-});
-
-window.addEventListener('click', (event) => {
-    if (event.target === modal) {
-        modal.style.display = 'none';
-    }
-});
-
-
-
+// Set the --vh value initially and on resize
+setVhProperty();
+window.addEventListener('resize', setVhProperty);
